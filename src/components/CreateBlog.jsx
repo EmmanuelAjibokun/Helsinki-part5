@@ -1,7 +1,7 @@
 import React from 'react'
 import blogService from '../services/blogs'
 
-const CreateBlog = () => {
+const CreateBlog = ({message, setBlogs}) => {
   const [title, setTitle] = React.useState('')
   const [author, setAuthor] = React.useState('')
   const [url, setUrl] = React.useState('')
@@ -14,9 +14,20 @@ const CreateBlog = () => {
       setTitle('')
       setAuthor('')
       setUrl('')
-      window.location.reload();
+      message.setSuccessMessage(`a new blog ${title} by ${author} added`)
+      setInterval(() => {
+        message.setSuccessMessage(null)
+      }, 5000);
+
+      await blogService.getAll().then(blogs =>
+        setBlogs( blogs )
+      )
     } catch (error) {
       console.error('Error creating blog:', error)
+      message.setErrMessage(`failed: ${error.message}`)
+      setInterval(() => {
+        message.setErrMessage(null)
+      }, 3000);
     }
   }
   return (
