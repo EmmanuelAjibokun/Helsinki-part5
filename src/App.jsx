@@ -1,15 +1,17 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import Login from './components/Login'
 import CreateBlog from './components/CreateBlog'
 import Notification from './components/Notification'
-
+import Toggleable from './components/Toggleable'
 
 
 const Blogs = ({ blogs, user, setBlogs }) => {
   const [successMessage, setSuccessMessage] = useState(null)
   const [errMessage, setErrMessage] = useState(null)
+
+  const blogRef = useRef();
 
   const handleLogout = () => {
     window.localStorage.removeItem('loggedBlogappUser')
@@ -21,7 +23,9 @@ const Blogs = ({ blogs, user, setBlogs }) => {
       <Notification message={successMessage} style={"success"} />
       <Notification message={errMessage} style={"error"} />
       <span>{user.username} logged in</span><button onClick={handleLogout}>logout</button>
-      <CreateBlog message={{setErrMessage, setSuccessMessage}} setBlogs={setBlogs} />
+      <Toggleable buttonLabel={"Create Blog"} ref={blogRef} >
+        <CreateBlog message={{setErrMessage, setSuccessMessage}} setBlogs={setBlogs} ref={blogRef} />
+      </Toggleable>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}

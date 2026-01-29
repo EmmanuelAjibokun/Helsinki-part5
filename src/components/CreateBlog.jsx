@@ -1,7 +1,7 @@
 import React from 'react'
 import blogService from '../services/blogs'
 
-const CreateBlog = ({message, setBlogs}) => {
+const CreateBlog = ({message, setBlogs, ref}) => {
   const [title, setTitle] = React.useState('')
   const [author, setAuthor] = React.useState('')
   const [url, setUrl] = React.useState('')
@@ -22,6 +22,8 @@ const CreateBlog = ({message, setBlogs}) => {
       await blogService.getAll().then(blogs =>
         setBlogs( blogs )
       )
+
+      ref.current.toggleVisibility()
     } catch (error) {
       console.error('Error creating blog:', error)
       message.setErrMessage(`failed: ${error.message}`)
@@ -30,6 +32,11 @@ const CreateBlog = ({message, setBlogs}) => {
       }, 3000);
     }
   }
+
+  const handleCancel = () => {
+    ref.current.toggleVisibility()
+  }
+
   return (
     <div>
       <h2>Create New</h2>
@@ -44,6 +51,7 @@ const CreateBlog = ({message, setBlogs}) => {
           <label htmlFor="url">Url: <input type="text" value={url} onChange={e => setUrl(e.target.value)} /></label>
         </div>
         <button type='submit'>create</button>
+        <button onClick={handleCancel}>cancel</button>
       </form>
     </div>
   )
