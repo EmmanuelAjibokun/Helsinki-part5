@@ -1,7 +1,7 @@
 import React from 'react'
 import blogService from '../services/blogs'
 
-const CreateBlog = ({message, setBlogs, ref}) => {
+const CreateBlog = ({ message, setBlogs, ref }) => {
   const [title, setTitle] = React.useState('')
   const [author, setAuthor] = React.useState('')
   const [url, setUrl] = React.useState('')
@@ -17,7 +17,7 @@ const CreateBlog = ({message, setBlogs, ref}) => {
       message.setSuccessMessage(`a new blog ${title} by ${author} added`)
       setInterval(() => {
         message.setSuccessMessage(null)
-      }, 5000);
+      }, 5000)
 
       await blogService.getAll().then(blogs =>
         setBlogs( blogs )
@@ -29,7 +29,7 @@ const CreateBlog = ({message, setBlogs, ref}) => {
       message.setErrMessage(`failed: ${error.message}`)
       setInterval(() => {
         message.setErrMessage(null)
-      }, 3000);
+      }, 3000)
     }
   }
 
@@ -57,4 +57,4 @@ const CreateBlog = ({message, setBlogs, ref}) => {
   )
 }
 
-export default CreateBlog;
+export default CreateBlog

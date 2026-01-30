@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const BACKEND_URL="http://localhost:3003"
+const BACKEND_URL = 'http://localhost:3003'
 const baseUrl = BACKEND_URL ? `${BACKEND_URL}/api/blogs` : '/api/blogs'
 
 let token = null

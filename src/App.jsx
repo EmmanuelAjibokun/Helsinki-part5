@@ -11,7 +11,7 @@ const Blogs = ({ blogs, user, setBlogs }) => {
   const [successMessage, setSuccessMessage] = useState(null)
   const [errMessage, setErrMessage] = useState(null)
 
-  const blogRef = useRef();
+  const blogRef = useRef()
 
   const handleLogout = () => {
     window.localStorage.removeItem('loggedBlogappUser')
@@ -20,11 +20,11 @@ const Blogs = ({ blogs, user, setBlogs }) => {
   return (
     <div>
       <h2>blogs</h2>
-      <Notification message={successMessage} style={"success"} />
-      <Notification message={errMessage} style={"error"} />
+      <Notification message={successMessage} style={'success'} />
+      <Notification message={errMessage} style={'error'} />
       <span>{user.username} logged in</span><button onClick={handleLogout}>logout</button>
-      <Toggleable buttonLabel={"Create Blog"} ref={blogRef} >
-        <CreateBlog message={{setErrMessage, setSuccessMessage}} setBlogs={setBlogs} ref={blogRef} />
+      <Toggleable buttonLabel={'Create Blog'} ref={blogRef} >
+        <CreateBlog message={{ setErrMessage, setSuccessMessage }} setBlogs={setBlogs} ref={blogRef} />
       </Toggleable>
       {blogs.sort((a, b) => b.likes - a.likes).map(blog =>
         <Blog key={blog.id} blog={blog} setBlogs={setBlogs} />
@@ -42,10 +42,10 @@ const App = () => {
     if (loggedUser) {
       const result = JSON.parse(loggedUser)
       setUser(result)
-      console.log("User loaded from localStorage:", result);
+      console.log('User loaded from localStorage:', result)
       blogService.setToken(result.token)
     } else {
-      return;
+      return
     }
     const fetchBlogs = async () => {
       const blogs = await blogService.getAll()

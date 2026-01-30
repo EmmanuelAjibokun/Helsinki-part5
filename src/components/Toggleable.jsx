@@ -1,7 +1,7 @@
-import { useState, useImperativeHandle } from "react";
+import { useState, useImperativeHandle } from 'react'
 
 const Toggleable = (props) => {
-  const [showContent, setShowContent] = useState(false);
+  const [showContent, setShowContent] = useState(false)
 
   const toggleVisibility = () => {
     setShowContent(!showContent)
@@ -9,11 +9,10 @@ const Toggleable = (props) => {
   useImperativeHandle(props.ref, () => {
     return { toggleVisibility, showContent }
   })
-  console.log(!props.buttonLabel.typeof);
+  console.log(!props.buttonLabel.typeof)
 
   return (
     <div style={props.style}>
-      
       {
         showContent ? (
           props.children
