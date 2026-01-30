@@ -7,17 +7,18 @@ const Toggleable = (props) => {
     setShowContent(!showContent)
   }
   useImperativeHandle(props.ref, () => {
-    return { toggleVisibility }
+    return { toggleVisibility, showContent }
   })
+  console.log(!props.buttonLabel.typeof);
 
   return (
-    <div>
+    <div style={props.style}>
       
       {
         showContent ? (
           props.children
         ) : (
-          <button onClick={toggleVisibility}>{props.buttonLabel}</button>
+          props.buttonLabel && <button onClick={toggleVisibility}>{props.buttonLabel}</button>
         )
       }
     </div>
