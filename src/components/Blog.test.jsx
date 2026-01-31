@@ -2,10 +2,12 @@ import { render, screen } from '@testing-library/react'
 import { test, expect, vi } from 'vitest'
 import Blog from './Blog'
 import userEvent from '@testing-library/user-event'
+import CreateBlog from './CreateBlog'
 
 vi.mock('../services/blogs', () => ({
   default: {
     update: vi.fn().mockResolvedValue({}),
+    createBlog: vi.fn().mockResolvedValue({}),
     getAll: vi.fn().mockResolvedValue([]),
   },
 }))
@@ -91,4 +93,42 @@ test('if the like button is clicked twice, the event handler is called twice', a
 
   // Verify the update function was called twice
   expect(blogService.default.update).toHaveBeenCalledTimes(2)
+})
+
+test('test for the new blog form', async () => {
+  const blogService = await import('../services/blogs')
+
+  const blog = {
+    title: 'Test Blog Title',
+    author: 'Test Author',
+    url: 'http://testblog.com',
+  }
+
+  const setBlogs = vi.fn()
+  const message = {
+    setSuccessMessage: vi.fn(),
+    setErrMessage: vi.fn(),
+  }
+  const mockRef = { current: { toggleVisibility: vi.fn() } }
+  const user = userEvent.setup()
+
+  render(<CreateBlog setBlogs={setBlogs} message={message} ref={mockRef} />)
+
+  const inputs = screen.getAllByRole('textbox')
+
+  await user.type(inputs[0], blog.title)
+  await user.type(inputs[1], blog.author)
+  await user.type(inputs[2], blog.url)
+
+  // Click the create button
+  const button = screen.getByText('create')
+  await user.click(button)
+
+  // Verify createBlog was called with the right data
+  expect(blogService.default.createBlog).toHaveBeenCalledTimes(1)
+  expect(blogService.default.createBlog).toHaveBeenCalledWith({
+    title: 'Test Blog Title',
+    author: 'Test Author',
+    url: 'http://testblog.com',
+  })
 })
